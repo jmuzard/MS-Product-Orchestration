@@ -1,0 +1,7 @@
+---
+HostName: asav1
+HostAddress: asav1.example.com
+PrimaryProtocol: IPsec
+BackupServers:
+  - asav2.example.com
+  - asav3.esample.com

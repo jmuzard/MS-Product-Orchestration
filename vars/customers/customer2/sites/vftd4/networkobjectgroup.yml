@@ -1,0 +1,13 @@
+---
+network_groups:
+  - CiscoDashboardsGroup:
+      description: Cisco Security Cloud Portals
+      network_objects:
+        - CiscoMerakiDashboard
+        - CiscoUmbrellaDashboard
+
+  - InternalNetworkGroup:
+      network_objects:
+        - EmployeeNetwork
+        - GuestNetwork
+        - InternalNetworks

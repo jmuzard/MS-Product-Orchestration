@@ -1,0 +1,30 @@
+---
+vlans:
+
+  - guests:
+      dhcp: false
+      parentName: users
+      description: This is for guests
+      hardwareName: GigabitEthernet0/3
+      ipAddress: 192.168.40.1
+      netmask: 255.255.255.0
+      standbyIpAddress:
+      vlanId: 102
+  - employees:
+      dhcp: false
+      parentName: users
+      description: This is the employees network
+      hardwareName: GigabitEthernet0/3
+      ipAddress: 192.168.41.1
+      netmask: 255.255.255.0
+      standbyIpAddress:
+      vlanId: 103
+  - contractors:
+      dhcp: false
+      parentName: users
+      description: This is for contractors
+      hardwareName: GigabitEthernet0/3
+      ipAddress: 192.168.42.1
+      netmask: 255.255.255.0
+      standbyIpAddress:
+      vlanId: 104

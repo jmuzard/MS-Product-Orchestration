@@ -1,0 +1,7 @@
+---
+hostname: vftd4
+device_model: ftdv
+ipaddress: 10.89.18.35
+port: 40913
+username: admin
+password: Sourcefire

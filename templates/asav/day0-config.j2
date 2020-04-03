@@ -1,0 +1,52 @@
+ASA Version {{ ASA_version }}
+!
+console serial
+hostname {{ hostname }}
+domain-name {{ domain }}
+enable password {{ enable_password }}
+{% if interfaces is defined %}
+{% for int in interfaces %}
+!
+{% for key, value in int.items() %}
+interface {{ key }}
+{% if 'description' in value %}
+ description {{ value.description }}
+{% endif %}
+ nameif {{ value.name }}
+ security-level {{ value.security_level }}
+{% if value.dhcp %}
+ ip address dhcp setroute
+{% else %}
+ ip address {{ value.ipAddress }} {{ value.netmask }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+http server enable
+http {{AdminNetwork}} {{AdminNetmask}} management
+snmp-server host management {{SnmpServer}} community {{SnmpCommunity}} version 2c
+snmp-server location {{SnmpLocation}}
+snmp-server contact {{SnmpContact}}
+snmp-server community {{SnmpCommunity}}
+crypto key generate rsa modulus 1024
+username {{AdminUser}} password {{AdminPassword}} privilege 15
+ssh stricthostkeycheck
+ssh {{AdminNetwork}} {{AdminNetmask}} management
+ssh timeout 60
+ssh version 1 2
+ssh key-exchange group dh-group14-sha1
+ntp authentication-key 1 md5 Cicco123
+ntp authenticate
+ntp trusted-key 1
+ntp server {{NtpServer}} key 1 source management prefer
+logging enable
+logging timestamp
+logging buffered informational
+logging trap informational
+logging history informational
+logging asdm informational
+logging facility 21
+logging device-id string {{Hostname}}
+logging host management {{SyslogServer}}
+aaa authentication ssh console LOCAL
+aaa authentication login-history

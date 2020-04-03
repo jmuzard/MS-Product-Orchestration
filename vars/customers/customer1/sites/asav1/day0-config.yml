@@ -1,0 +1,38 @@
+---
+hostname: asav1
+interfaces:
+  - Management0/0:
+      description: connection SP management
+      name: management
+      security_level: 100
+      dhcp: False
+      ipAddress: 192.168.94.200
+      netmask: 255.255.255.0
+      standbyIpAddress:
+
+  - GigabitEthernet0/0:
+      description: connection internet outside
+      name: outside
+      security_level: 0
+      dhcp: True
+      ipAddress: dhcp
+      netmask: setroute
+      standbyIpAddress:
+
+  - GigabitEthernet0/1:
+      description: connection inside
+      name: inside
+      security_level: 100
+      dhcp: False
+      ipAddress: 172.16.89.200
+      netmask: 255.255.255.0
+      standbyIpAddress:
+
+  - GigabitEthernet0/2:
+      description: connection dmz
+      name: dmz
+      security_level: 50
+      dhcp: False
+      ipAddress: 192.168.74.200
+      netmask: 255.255.255.0
+      standbyIpAddress:

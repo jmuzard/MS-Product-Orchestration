@@ -1,0 +1,9 @@
+---
+customer_vars: $MSPO_DIR/vars/customers
+vars: $MSPO_DIR/vars
+global_vars: $MSPO_DIR/vars/all.yml
+customer_configs: $MSPO_DIR/configs
+templates: $MSPO_DIR/templates
+config_syntax: $MSPO_DIR/schemas
+staging: $MSPO_DIR/staging
+images: $MSPO_DIR/images

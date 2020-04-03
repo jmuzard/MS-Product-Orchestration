@@ -1,0 +1,83 @@
+crypto key generate ecdsa label ECDSA_KEYPAIR noconfirm
+ip local pool RAVPNPOOL {{ VpnPool }} mask {{ RaNetworkMask }}
+object network NETWORK_OBJ_RA_NETWORK
+ subnet {{ RaNetwork }} {{ RaNetworkMask }}
+access-list outside_access_in extended permit ip object NETWORK_OBJ_RA_NETWORK any
+nat (inside,outside) source static any any destination static NETWORK_OBJ_RA_NETWORK NETWORK_OBJ_RA_NETWORK no-proxy-arp route-lookup
+nat (outside,outside) source dynamic NETWORK_OBJ_RA_NETWORK interface dns
+crypto ipsec ikev2 ipsec-proposal AES256
+ protocol esp encryption aes-256
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal AES192
+ protocol esp encryption aes-192
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal AES
+ protocol esp encryption aes
+ protocol esp integrity sha-1 md5
+crypto dynamic-map SYSTEM_DEFAULT_CRYPTO_MAP 65535 set ikev2 ipsec-proposal AES256 AES192 AES
+crypto map outside_map 65535 ipsec-isakmp dynamic SYSTEM_DEFAULT_CRYPTO_MAP
+crypto map outside_map interface outside
+crypto ca trustpoint RAVPN_TrustPoint
+ enrollment self
+ subject-name CN=asav1
+ keypair ECDSA_KEYPAIR
+crypto ikev2 policy 1
+ encryption aes-256
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 10
+ encryption aes-192
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 20
+ encryption aes
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 30
+ encryption 3des
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 40
+ encryption des
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 enable outside client-services port 443
+crypto ikev2 remote-access trustpoint RAVPN_TrustPoint
+webvpn
+ enable outside
+  hsts
+  enable
+  max-age 31536000
+  include-sub-domains
+  no preload
+{% set count = namespace(value=1) %}
+{% for image in images %}
+{% for key, value in image.items() %}
+ anyconnect image disk0:/{{ key }} {{ count.value }} regex "{{ value.regex}}"
+{% set count.value = count.value + 1 %}
+{% endfor %}
+{% endfor %}
+ anyconnect profiles ACVPN_client_profile disk0:/ACVPN_client_profile.xml
+ anyconnect enable
+ tunnel-group-list enable
+ cache
+  disable
+ error-recovery disable
+group-policy GroupPolicy_ACVPN internal
+group-policy GroupPolicy_ACVPN attributes
+ wins-server none
+ dns-server value {{ DnsServer }}
+ vpn-tunnel-protocol ikev2
+ default-domain value asav1.example.com
+ webvpn
+  anyconnect profiles value ACVPN_client_profile type user

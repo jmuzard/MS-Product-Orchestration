@@ -1,0 +1,69 @@
+---
+network_objects:
+
+  - CiscoUmbrellaDashboard:
+      subType: FQDN
+      description: Cisco Umbrella Portal
+      value: dashboard.umbrella.com
+
+  - CiscoMerakiDashboard:
+      subType: FQDN
+      value: dashboard.meraki.com
+
+  - InternalNetwork:
+      subType: NETWORK
+      value: 192.168.45.0/24
+
+  - ProductionNetwork:
+      subType: NETWORK
+      value: 192.168.10.0/24
+
+  - DevNetwork:
+      subType: NETWORK
+      value: 192.168.11.0/24
+
+  - Gateway_inside:
+      subType: HOST
+      value: 192.168.45.2
+
+  - DmzNetwork:
+      subType: NETWORK
+      value: 192.168.1.0/24
+
+  - dmzNetwork1:
+      subType: NETWORK
+      value: 192.168.6.0/24
+
+  - dmzNetwork2:
+      subType: NETWORK
+      value: 192.168.7.0/24
+
+  - Gateway_Dmz:
+      subType: HOST
+      value: 192.168.1.2
+
+  - EmployeeNetwork:
+      subType: NETWORK
+      value: 192.168.3.0/24
+
+  - GuestNetwork:
+      subType: NETWORK
+      value: 192.168.2.0/24
+
+network_groups:
+  - CiscoDashboardsGroup:
+      description: Cisco Security Cloud Portals
+      network_objects:
+        - CiscoMerakiDashboard:
+            subType: NETWORK
+        - CiscoUmbrellaDashboard:
+            subType: NETWORK
+
+  - InternalNetworkGroup:
+      network_objects:
+        - EmployeeNetwork:
+            subType: NETWORK
+        - GuestNetwork:
+            subType: NETWORK
+        - InternalNetwork:
+            subType: NETWORK

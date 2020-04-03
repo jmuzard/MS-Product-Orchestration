@@ -1,0 +1,63 @@
+object network CUSTOMER_NET
+ subnet {{ customerNet }} {{ customerNetmask }}
+access-list outside_cryptomap extended permit ip object NETWORK_OBJ_RA_NETWORK object CUSTOMER_NET
+nat (any,outside) source static NETWORK_OBJ_RA_NETWORK NETWORK_OBJ_RA_NETWORK destination static CUSTOMER_NET CUSTOMER_NET no-proxy-arp route-lookup
+crypto ipsec ikev2 ipsec-proposal AES256
+ protocol esp encryption aes-256
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal AES192
+protocol esp encryption aes-192
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal AES
+ protocol esp encryption aes
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal 3DES
+ protocol esp encryption 3des
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal DES
+ protocol esp encryption des
+ protocol esp integrity sha-1 md5
+crypto map outside_map 1 match address outside_cryptomap
+ crypto map outside_map 1 set pfs
+ crypto map outside_map 1 set peer {{ peer }}
+ crypto map outside_map 1 set ikev2 ipsec-proposal AES256 AES192 AES 3DES DES
+crypto ikev2 policy 1
+ encryption aes-256
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 10
+ encryption aes-192
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 20
+ encryption aes
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 30
+ encryption 3des
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 40
+ encryption des
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 enable outside
+group-policy GroupPolicy_{{ peer }} internal
+ group-policy GroupPolicy_{{ peer }} attributes
+ vpn-tunnel-protocol ikev2
+tunnel-group {{ peer }} type ipsec-l2l
+tunnel-group {{ peer }} general-attributes
+ default-group-policy GroupPolicy_{{ peer }}
+tunnel-group {{ peer }} ipsec-attributes
+ ikev2 remote-authentication pre-shared-key {{ remotePreSharedKey }}
+ ikev2 local-authentication pre-shared-key {{ localPreSharedKey }}

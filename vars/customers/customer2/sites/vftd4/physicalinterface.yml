@@ -1,0 +1,37 @@
+---
+interfaces:
+  - GigabitEthernet0/0:
+      name: outside
+      description: connection internet outside
+      hardwareName: GigabitEthernet0/0
+      dhcp: True
+      ipAddress:
+      netmask:
+      standbyIpAddress:
+
+  - GigabitEthernet0/1:
+      name: inside
+      description: connection inside
+      hardwareName: GigabitEthernet0/1
+      dhcp: False
+      ipAddress: 192.168.45.1
+      netmask: 255.255.255.0
+      standbyIpAddress:
+
+  - GigabitEthernet0/2:
+      name: dmz
+      description: connection dmz
+      hardwareName: GigabitEthernet0/2
+      dhcp: False
+      ipAddress: 192.168.1.1
+      netmask: 255.255.255.0
+      standbyIpAddress:
+
+  - GigabitEthernet0/3:
+      name: users
+      description: connection users
+      hardwareName: GigabitEthernet0/3
+      dhcp: False
+      ipAddress: 192.168.2.1
+      netmask: 255.255.255.0
+      standbyIpAddress:

@@ -1,0 +1,11 @@
+---
+AdminNetwork: 192.168.94.0
+AdminNetmask: 255.255.255.0
+AdminUser: admin
+AdminPassword: cisco
+NtpServer: 192.168.94.200
+SyslogServer: 192.168.194.100
+SnmpCommunity: public
+SnmpServer: 192.168.94.140
+SnmpContact: mssp
+SnmpLocation: fr

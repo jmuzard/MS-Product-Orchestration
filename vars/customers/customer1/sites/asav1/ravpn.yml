@@ -1,0 +1,11 @@
+---
+images:
+  - anyconnect-macos-4.8.03036-webdeploy-k9.pkg:
+      regex: Intel Mac OS X
+  - anyconnect-win-4.8.03036-webdeploy-k9.pkg:
+      regex: Windows
+
+RaNetwork: 192.168.10.0
+RaNetworkMask: 255.255.255.0
+VpnPool: 192.168.10.100-192.168.10.200
+DnsServer: 8.8.8.8 8.8.8.4

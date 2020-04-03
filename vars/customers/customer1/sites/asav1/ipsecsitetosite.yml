@@ -1,0 +1,6 @@
+---
+customerNet: 172.16.1.0
+customerNetmask: 255.255.255.0
+peer: 172.16.1.12
+remotePreSharedKey: remotesecretkey
+localPreSharedKey: localsecretkey
