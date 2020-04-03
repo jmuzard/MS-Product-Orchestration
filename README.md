@@ -33,4 +33,4 @@ FTD scripts:
 
 	. ftd_render_template.py -> generate partial FTD config
 
-	.	ftd_import_config.py	-> import either full or partial configuration to FTD
+	. ftd_import_config.py	-> import either full or partial configuration to FTD
